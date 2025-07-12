@@ -11,130 +11,193 @@ const stats = [
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,88,0,0.1)_0%,transparent_50%)] opacity-50" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,88,0,0.05)_0%,transparent_50%)]" />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ background: 'var(--gradient-hero)' }}>
+      {/* Advanced Background Elements */}
+      <div className="absolute inset-0">
+        {/* Primary gradient overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_30%_20%,hsl(var(--eegnite-orange)/0.15)_0%,transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_70%_80%,hsl(var(--eegnite-orange)/0.08)_0%,transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_20%_60%,hsl(var(--eegnite-orange-light)/0.06)_0%,transparent_40%)]" />
+        
+        {/* Noise texture overlay */}
+        <div className="absolute inset-0 opacity-20 mix-blend-overlay" 
+             style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E")' }} />
+      </div>
       
-      {/* Floating Elements */}
+      {/* Floating Glass Elements */}
       <motion.div
-        className="absolute top-20 left-10 w-3 h-3 bg-primary rounded-full opacity-60"
+        className="absolute top-24 left-16 w-4 h-4 rounded-full glass"
         animate={{
-          y: [0, -20, 0],
+          y: [0, -25, 0],
+          rotate: [0, 180, 360],
           opacity: [0.6, 1, 0.6],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute top-40 right-20 w-2 h-2 bg-primary rounded-full opacity-40"
-        animate={{
-          y: [0, -15, 0],
-          opacity: [0.4, 0.8, 0.4],
         }}
         transition={{
           duration: 4,
           repeat: Infinity,
           ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute top-32 right-24 w-3 h-3 rounded-full"
+        style={{ background: 'var(--gradient-orange-glow)' }}
+        animate={{
+          y: [0, -20, 0],
+          scale: [1, 1.2, 1],
+          opacity: [0.7, 1, 0.7],
+        }}
+        transition={{
+          duration: 3.5,
+          repeat: Infinity,
+          ease: "easeInOut",
           delay: 1,
         }}
       />
+      <motion.div
+        className="absolute bottom-32 left-12 w-2 h-2 rounded-full bg-primary/60"
+        animate={{
+          y: [0, -15, 0],
+          x: [0, 10, 0],
+          opacity: [0.5, 0.9, 0.5],
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
+        }}
+      />
+      <motion.div
+        className="absolute top-1/2 right-8 w-6 h-6 rounded-full glass-strong"
+        animate={{
+          y: [0, -30, 0],
+          rotate: [0, -180, -360],
+          opacity: [0.4, 0.8, 0.4],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 0.5,
+        }}
+      />
 
-      <div className="container mx-auto px-4 lg:px-8 text-center relative z-10">
+      <div className="canvas-wide text-center relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="max-w-5xl mx-auto"
+          transition={{ duration: 1, delay: 0.3 }}
+          className="max-w-6xl mx-auto"
         >
-          {/* Badge */}
+          {/* Premium Badge */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="inline-flex items-center px-4 py-2 rounded-full bg-card/50 border border-border backdrop-blur-sm mb-8"
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="inline-flex items-center px-6 py-3 rounded-full glass mb-10 hover-lift group cursor-pointer"
           >
-            <span className="text-sm font-satoshi text-muted-foreground">
-              🚀 Trusted by 200+ growing businesses
-            </span>
+            <div className="flex items-center space-x-3">
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+              <span className="text-sm font-inter font-medium text-foreground/90">
+                Trusted by 200+ Growing Businesses
+              </span>
+              <div className="flex space-x-1">
+                {[...Array(5)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.7 + i * 0.1 }}
+                    className="w-1 h-1 bg-primary rounded-full"
+                  />
+                ))}
+              </div>
+            </div>
           </motion.div>
 
-          {/* Main Headline */}
+          {/* Powerful Headline */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-clash font-bold leading-tight mb-6"
+            transition={{ duration: 1, delay: 0.7 }}
+            className="text-5xl md:text-7xl lg:text-8xl font-clash font-bold leading-[0.9] mb-8"
           >
-            <span className="text-foreground">Stop Chasing</span>
-            <br />
-            <span className="text-primary">Start Converting</span>
+            <span className="text-foreground block">Stop Chasing</span>
+            <span className="gradient-text block">Start Converting</span>
+            <motion.span 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+              className="text-foreground/80 text-3xl md:text-4xl lg:text-5xl font-medium block mt-4"
+            >
+              Like Never Before
+            </motion.span>
           </motion.h1>
 
-          {/* Subheadline */}
+          {/* Compelling Subheadline */}
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto mb-10 font-satoshi leading-relaxed"
+            transition={{ duration: 0.8, delay: 1.0 }}
+            className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto mb-12 font-inter leading-relaxed"
           >
-            We don't just run campaigns—we architect growth systems that turn your 
-            biggest marketing challenges into competitive advantages.
+            We don't just run campaigns—we architect <span className="text-primary font-semibold">growth systems</span> that turn your 
+            biggest marketing challenges into <span className="text-foreground font-semibold">competitive advantages</span>.
           </motion.p>
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.0 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
-          >
-            <Button 
-              asChild 
-              size="lg" 
-              className="bg-gradient-orange hover:shadow-orange transition-all duration-300 group"
-            >
-              <Link to="/contact" className="flex items-center space-x-2">
-                <span>Get Your Growth Plan</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </Button>
-            
-            <Button asChild variant="outline" size="lg">
-              <Link to="/case-studies" className="flex items-center space-x-2">
-                <Play className="w-4 h-4" />
-                <span>See Our Work</span>
-              </Link>
-            </Button>
-          </motion.div>
-
-          {/* Stats */}
+          {/* Premium CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto"
+            className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20"
+          >
+            <Button 
+              asChild 
+              size="lg" 
+              className="neumorphism hover-glow px-8 py-4 text-lg font-inter font-semibold rounded-2xl group transition-all duration-300"
+              style={{ background: 'var(--gradient-orange)' }}
+            >
+              <Link to="/contact" className="flex items-center space-x-3">
+                <span>Get Your Growth Plan</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </Button>
+            
+            <Button asChild variant="outline" size="lg" className="glass hover-lift px-8 py-4 text-lg font-inter font-medium rounded-2xl border-2 border-foreground/20">
+              <Link to="/case-studies" className="flex items-center space-x-3">
+                <Play className="w-5 h-5" />
+                <span>View Success Stories</span>
+              </Link>
+            </Button>
+          </motion.div>
+
+          {/* Premium Stats Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.4 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto"
           >
             {stats.map((stat, index) => {
               const Icon = stat.icon;
               return (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.4 + index * 0.1 }}
-                  className="text-center"
+                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 1.6 + index * 0.15 }}
+                  className="neumorphism hover-lift p-8 rounded-3xl text-center group cursor-pointer"
                 >
-                  <div className="flex items-center justify-center mb-2">
-                    <Icon className="w-5 h-5 text-primary mr-2" />
-                    <span className="text-2xl lg:text-3xl font-clash font-bold text-foreground">
-                      {stat.value}
-                    </span>
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="p-3 rounded-2xl glass-strong group-hover:scale-110 transition-transform duration-300">
+                      <Icon className="w-6 h-6 text-primary" />
+                    </div>
                   </div>
-                  <p className="text-muted-foreground font-satoshi text-sm">
+                  <div className="text-3xl lg:text-4xl font-clash font-bold gradient-text mb-2">
+                    {stat.value}
+                  </div>
+                  <p className="text-muted-foreground font-inter text-sm font-medium">
                     {stat.label}
                   </p>
                 </motion.div>

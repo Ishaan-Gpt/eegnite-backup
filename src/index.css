@@ -2,64 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
-/* EEGNITE Digital Marketing Agency Design System */
+/* EEGNITE Digital Marketing Agency Design System - Luxury Production Ready */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap');
 
 @layer base {
   :root {
     /* EEGNITE Brand Colors */
     --eegnite-orange: 18 100% 50%; /* #FF5800 */
-    --eegnite-orange-light: 18 100% 60%;
-    --eegnite-orange-dark: 18 100% 40%;
+    --eegnite-orange-light: 18 100% 65%;
+    --eegnite-orange-dark: 18 90% 45%;
+    --eegnite-orange-glow: 18 100% 50%;
     
-    --deep-charcoal: 0 0% 6.7%; /* #111111 */
+    --deep-charcoal: 222 15% 8%; /* Richer dark base */
+    --pure-black: 0 0% 0%;
     --soft-white: 0 0% 99.2%; /* #FDFDFD */
     --warm-beige: 35 50% 92%; /* #F3E6D0 */
     
-    /* Dark theme primary */
-    --background: 0 0% 6.7%; /* Deep charcoal */
-    --foreground: 0 0% 99.2%; /* Soft white */
+    /* Enhanced Dark Theme */
+    --background: 222 15% 8%; /* Deep sophisticated charcoal */
+    --foreground: 0 0% 98%; /* Pure white for contrast */
 
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 95%;
+    --card: 222 15% 10%; /* Slightly lighter than bg */
+    --card-foreground: 0 0% 96%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 222 15% 12%;
+    --popover-foreground: 0 0% 96%;
 
     --primary: 18 100% 50%; /* EEGNITE Orange */
-    --primary-foreground: 0 0% 99.2%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 222 15% 15%;
+    --secondary-foreground: 0 0% 90%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 222 15% 15%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 18 100% 50%;
-    --accent-foreground: 0 0% 99.2%;
+    --accent: 18 95% 55%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 99.2%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
+    --border: 222 15% 18%;
+    --input: 222 15% 16%;
     --ring: 18 100% 50%;
 
-    --radius: 0.75rem;
+    --radius: 1rem; /* Larger radius for modern look */
 
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--deep-charcoal)), hsl(240 15% 12%));
-    --gradient-orange: linear-gradient(135deg, hsl(var(--eegnite-orange)), hsl(var(--eegnite-orange-light)));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(0 0% 8%));
+    /* Advanced Gradients */
+    --gradient-hero: radial-gradient(ellipse 120% 120% at 50% 20%, hsl(222 15% 12%) 0%, hsl(222 20% 6%) 40%, hsl(var(--pure-black)) 100%);
+    --gradient-orange: linear-gradient(135deg, hsl(var(--eegnite-orange)) 0%, hsl(var(--eegnite-orange-light)) 50%, hsl(24 100% 60%) 100%);
+    --gradient-orange-glow: linear-gradient(135deg, hsl(var(--eegnite-orange)) 0%, hsl(var(--eegnite-orange-light)) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(222 15% 10%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(222 15% 12%) 0%, hsl(222 20% 8%) 100%);
+    --gradient-glass: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
     
-    /* Shadows */
-    --shadow-orange: 0 20px 40px -10px hsl(var(--eegnite-orange) / 0.3);
-    --shadow-soft: 0 10px 30px -5px hsl(0 0% 0% / 0.3);
+    /* Luxury Shadows & Effects */
+    --shadow-orange: 0 25px 50px -12px hsl(var(--eegnite-orange) / 0.4);
+    --shadow-orange-glow: 0 0 60px hsl(var(--eegnite-orange) / 0.3);
+    --shadow-elegant: 0 20px 40px -10px hsl(0 0% 0% / 0.5);
+    --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    --shadow-neumorphism: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 16px rgba(0, 0, 0, 0.3);
+    --shadow-depth-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    --shadow-depth-2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    --shadow-depth-3: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     
-    /* Animations */
+    /* Advanced Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-elastic: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-glass: all 0.2s ease-in-out;
+
+    /* Blur Effects */
+    --blur-sm: 4px;
+    --blur-md: 8px;
+    --blur-lg: 16px;
+    --blur-xl: 24px;
   }
 
   .light {
@@ -90,5 +110,76 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Typography Classes */
+  .font-inter { font-family: 'Inter', sans-serif; }
+  .font-clash { font-family: 'Clash Display', sans-serif; }
+
+  /* Glass Morphism Effects */
+  .glass {
+    background: var(--gradient-glass);
+    backdrop-filter: blur(var(--blur-md));
+    -webkit-backdrop-filter: blur(var(--blur-md));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-strong {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+    backdrop-filter: blur(var(--blur-lg));
+    -webkit-backdrop-filter: blur(var(--blur-lg));
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* Neumorphism Effects */
+  .neumorphism {
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-neumorphism);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .neumorphism-inset {
+    background: hsl(var(--background));
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), inset 0 -1px 1px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Advanced Hover Effects */
+  .hover-lift {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-depth-3);
+  }
+
+  .hover-glow:hover {
+    box-shadow: var(--shadow-orange-glow);
+    transform: scale(1.02);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    background: var(--gradient-orange);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Canvas Improvements */
+  .canvas-wide {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .canvas-wide {
+      padding: 0 1rem;
+    }
   }
 }

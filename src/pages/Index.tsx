@@ -3,6 +3,7 @@ import { Hero } from '@/components/Hero';
 import { ServiceCard } from '@/components/ServiceCard';
 import { TestimonialSlider } from '@/components/TestimonialSlider';
 import { CTASection } from '@/components/CTASection';
+import { InteractiveTools } from '@/components/InteractiveTools';
 import { services } from '@/data/services';
 import { Zap, Target, Users, TrendingUp } from 'lucide-react';
 
@@ -36,8 +37,8 @@ const Index = () => {
       <Hero />
       
       {/* Services Section */}
-      <section className="py-16 lg:py-24 bg-background">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section className="py-24 bg-background">
+        <div className="canvas-wide">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -110,6 +111,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Interactive Tools */}
+      <InteractiveTools />
 
       {/* Testimonials */}
       <TestimonialSlider />
