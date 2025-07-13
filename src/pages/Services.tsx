@@ -3,6 +3,7 @@ import { Check, ArrowRight, Star, Zap, Target, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Link } from 'react-router-dom';
 
 const serviceCategories = [
   {
@@ -125,9 +126,11 @@ const Services = () => {
               Stop throwing money at marketing tactics that don't scale. Get a proven growth system 
               that turns your business into a revenue-generating machine.
             </p>
-            <Button className="bg-gradient-orange hover:bg-gradient-orange/90 text-primary-foreground font-clash font-semibold text-lg px-8 py-4">
-              Get Your Growth Plan
-              <ArrowRight className="ml-2 w-5 h-5" />
+            <Button asChild className="bg-gradient-orange hover:bg-gradient-orange/90 text-primary-foreground font-clash font-semibold text-lg px-8 py-4">
+              <Link to="/contact">
+                Get Your Growth Plan
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Link>
             </Button>
           </motion.div>
         </div>
@@ -293,14 +296,17 @@ const Services = () => {
                 </ul>
 
                 <Button 
+                  asChild
                   className={`w-full font-clash font-semibold ${
                     tier.popular 
                       ? 'bg-gradient-orange hover:bg-gradient-orange/90 text-primary-foreground' 
                       : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
                   }`}
                 >
-                  {tier.cta}
-                  <ArrowRight className="ml-2 w-4 h-4" />
+                  <Link to="/contact">
+                    {tier.cta}
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Link>
                 </Button>
               </motion.div>
             ))}
@@ -325,12 +331,16 @@ const Services = () => {
               Book a free strategy session and get a custom growth roadmap for your business.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-gradient-orange hover:bg-gradient-orange/90 text-primary-foreground font-clash font-semibold text-lg px-8 py-4">
-                Book Strategy Session
-                <ArrowRight className="ml-2 w-5 h-5" />
+              <Button asChild className="bg-gradient-orange hover:bg-gradient-orange/90 text-primary-foreground font-clash font-semibold text-lg px-8 py-4">
+                <Link to="/contact">
+                  Book Strategy Session
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
               </Button>
-              <Button variant="outline" className="font-clash font-semibold text-lg px-8 py-4">
-                View Case Studies
+              <Button asChild variant="outline" className="font-clash font-semibold text-lg px-8 py-4">
+                <Link to="/case-studies">
+                  View Case Studies
+                </Link>
               </Button>
             </div>
           </motion.div>

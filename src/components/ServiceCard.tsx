@@ -3,6 +3,7 @@ import { ArrowRight, Search, Target, Mail, Linkedin, TrendingUp, Edit3 } from 'l
 import { Service } from '@/data/services';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const iconMap = {
   search: Search,
@@ -81,11 +82,14 @@ export function ServiceCard({ service, index }: ServiceCardProps) {
 
           {/* CTA */}
           <Button 
+            asChild
             variant="ghost" 
             className="group/btn self-start p-0 h-auto text-primary hover:text-primary hover:bg-transparent"
           >
-            <span className="font-satoshi font-medium">Learn More</span>
-            <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+            <Link to="/services">
+              <span className="font-satoshi font-medium">Learn More</span>
+              <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+            </Link>
           </Button>
         </CardContent>
       </Card>

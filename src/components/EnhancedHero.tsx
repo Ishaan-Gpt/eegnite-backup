@@ -5,6 +5,7 @@ import { Glow } from "@/components/ui/glow";
 import { Floating3D } from "@/components/ui/floating-3d";
 import { ArrowRight, Play, Star, Users, TrendingUp, Award } from "lucide-react";
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import heroMockup from "@/assets/hero-bg.jpg";
 
 const testimonials = [
@@ -155,10 +156,12 @@ export function EnhancedHero() {
               transition={{ delay: 1.3 }}
             >
               <Glow intensity="lg" color="primary">
-                <Button 
-                  size="lg" 
-                  className="group relative overflow-hidden px-8 py-4 text-base font-semibold"
-                >
+              <Button 
+                asChild
+                size="lg" 
+                className="group relative overflow-hidden px-8 py-4 text-base font-semibold"
+              >
+                <Link to="/contact">
                   <motion.span
                     className="relative z-10 flex items-center gap-2"
                     whileHover={{ x: 2 }}
@@ -172,16 +175,20 @@ export function EnhancedHero() {
                     whileHover={{ x: 0 }}
                     transition={{ duration: 0.3 }}
                   />
-                </Button>
+                </Link>
+              </Button>
               </Glow>
               
               <Button 
+                asChild
                 variant="outline" 
                 size="lg"
                 className="group px-8 py-4 text-base font-semibold border-2 hover:border-primary/50"
               >
-                <Play className="w-4 h-4 mr-2 transition-transform group-hover:scale-110" />
-                Watch Success Stories
+                <Link to="/case-studies">
+                  <Play className="w-4 h-4 mr-2 transition-transform group-hover:scale-110" />
+                  Watch Success Stories
+                </Link>
               </Button>
             </motion.div>
 

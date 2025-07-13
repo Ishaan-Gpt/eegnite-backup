@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ServiceCard } from "@/components/ServiceCard";
 import { CTASection } from "@/components/CTASection";
-import { TestimonialSlider } from "@/components/TestimonialSlider";
+import Testimonials from "@/components/ui/testimonials-columns-1";
 import { InteractiveTools } from "@/components/InteractiveTools";
 import { services } from "@/data/services";
 import { EnhancedHero } from "@/components/EnhancedHero";
@@ -39,7 +39,7 @@ const Index = () => {
       {/* Enhanced Hero Section */}
       <EnhancedHero />
       
-      {/* Services Section */}
+      {/* Core Services Section */}
       <section className="py-24 bg-background">
         <div className="canvas-wide">
           <motion.div
@@ -50,16 +50,42 @@ const Index = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
-              Strategic Services That <span className="text-primary">Drive Results</span>
+              Core Growth Services That <span className="text-primary">Drive Results</span>
             </h2>
             <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
-              We don't believe in one-size-fits-all solutions. Each service is tailored to your specific business goals and market dynamics.
+              Foundational marketing services designed to establish your market presence and generate consistent leads.
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
+            {services.slice(0, 3).map((service, index) => (
               <ServiceCard key={service.id} service={service} index={index} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Advanced Growth Solutions Section */}
+      <section className="py-24 bg-gradient-subtle">
+        <div className="canvas-wide">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
+              Advanced Growth <span className="text-primary">Solutions</span>
+            </h2>
+            <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
+              Enterprise-level strategies for businesses ready to scale aggressively and dominate their market.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.slice(3).map((service, index) => (
+              <ServiceCard key={service.id} service={service} index={index + 3} />
             ))}
           </div>
         </div>
@@ -128,7 +154,7 @@ const Index = () => {
       <FeaturesShowcase />
 
       {/* Testimonials */}
-      <TestimonialSlider />
+      <Testimonials />
 
       {/* CTA Section */}
       <CTASection />

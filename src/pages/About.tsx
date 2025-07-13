@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion';
 import { Award, Users, Target, Zap, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const founderStory = {
   name: "Alex Chen",
   title: "Founder & Chief Growth Officer",
-  image: "/api/placeholder/400/500",
+  image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=600&fit=crop&crop=face",
   story: "After scaling 3 startups from zero to 8-figures, I discovered the exact growth framework that separates industry leaders from everyone else. EEGNITE was born from one mission: democratize enterprise-level growth strategies for ambitious businesses."
 };
 
@@ -13,19 +14,19 @@ const teamMembers = [
   {
     name: "Sarah Rodriguez",
     role: "Head of Strategy",
-    image: "/api/placeholder/300/300",
+    image: "https://images.unsplash.com/photo-1494790108755-2616b612e2bb?w=300&h=400&fit=crop&crop=face",
     expertise: "Performance Marketing & Analytics"
   },
   {
     name: "Marcus Thompson", 
     role: "Creative Director",
-    image: "/api/placeholder/300/300",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=400&fit=crop&crop=face",
     expertise: "Brand Development & Content"
   },
   {
     name: "Jennifer Kim",
     role: "Client Success Director", 
-    image: "/api/placeholder/300/300",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=400&fit=crop&crop=face",
     expertise: "Account Management & Growth"
   }
 ];
@@ -112,9 +113,11 @@ const About = () => {
                 {founderStory.story}
               </p>
               
-              <Button className="bg-gradient-orange hover:bg-gradient-orange/90 text-primary-foreground font-clash font-semibold">
-                Book a Strategy Call
-                <ChevronRight className="ml-2 w-4 h-4" />
+              <Button asChild className="bg-gradient-orange hover:bg-gradient-orange/90 text-primary-foreground font-clash font-semibold">
+                <Link to="/contact">
+                  Book a Strategy Call
+                  <ChevronRight className="ml-2 w-4 h-4" />
+                </Link>
               </Button>
             </motion.div>
           </div>

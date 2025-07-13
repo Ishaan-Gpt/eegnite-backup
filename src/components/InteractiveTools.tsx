@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Link } from 'react-router-dom';
 
 export function InteractiveTools() {
   return (
@@ -190,9 +191,14 @@ function ROICalculator() {
                 </div>
               </div>
 
-              <Button className="w-full glass hover-lift font-inter font-semibold">
-                Get My Custom Growth Plan
-                <ArrowRight className="w-4 h-4 ml-2" />
+              <Button 
+                asChild
+                className="w-full glass hover-lift font-inter font-semibold"
+              >
+                <Link to="/contact">
+                  Get My Custom Growth Plan
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
               </Button>
             </motion.div>
           ) : (
@@ -334,11 +340,14 @@ function MarketingAudit() {
             </div>
 
             <Button 
+              asChild
               className="w-full neumorphism hover-glow py-3 font-inter font-semibold"
               style={{ background: 'var(--gradient-orange)' }}
             >
-              Get Detailed Analysis & Recommendations
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <Link to="/contact">
+                Get Detailed Analysis & Recommendations
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
             </Button>
           </motion.div>
         )}
@@ -440,15 +449,17 @@ function LeadScoreQuiz() {
               </div>
             ))}
 
-            <Button 
-              onClick={() => setShowScore(true)}
-              disabled={Object.keys(responses).length < questions.length}
-              className="w-full neumorphism hover-glow py-3 font-inter font-semibold"
-              style={{ background: 'var(--gradient-orange)' }}
-            >
-              Get My Lead Score
-              <Target className="w-4 h-4 ml-2" />
-            </Button>
+                  <Button 
+                    asChild
+                    disabled={Object.keys(responses).length < questions.length}
+                    className="w-full neumorphism hover-glow py-3 font-inter font-semibold"
+                    style={{ background: 'var(--gradient-orange)' }}
+                  >
+                    <Link to="/contact">
+                      Get My Lead Score
+                      <Target className="w-4 h-4 ml-2" />
+                    </Link>
+                  </Button>
           </div>
         ) : (
           <motion.div
