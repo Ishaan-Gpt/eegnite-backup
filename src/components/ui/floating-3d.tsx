@@ -1,58 +1,16 @@
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Float, Text3D } from '@react-three/drei'
-import { useRef, useState } from 'react'
-import { Mesh } from 'three'
-import { useSpring, animated } from '@react-spring/three'
-
-function FloatingShape({ position, color = '#6366f1' }: { position: [number, number, number], color?: string }) {
-  const meshRef = useRef<Mesh>(null)
-  const [hovered, setHovered] = useState(false)
-  
-  const { scale } = useSpring({
-    scale: hovered ? 1.2 : 1,
-    config: { tension: 300, friction: 30 }
-  })
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.1
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.1
-    }
-  })
-
-  return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-      <animated.mesh
-        ref={meshRef}
-        position={position}
-        scale={scale}
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
-      >
-        <icosahedronGeometry args={[0.3, 0]} />
-        <meshStandardMaterial 
-          color={color} 
-          transparent 
-          opacity={0.7}
-          emissive={color}
-          emissiveIntensity={0.2}
-        />
-      </animated.mesh>
-    </Float>
-  )
-}
-
+// Simplified floating elements without 3D canvas to avoid React Three Fiber errors
 export function Floating3D() {
   return (
-    <div className="absolute inset-0 -z-10">
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-        <ambientLight intensity={0.4} />
-        <pointLight position={[10, 10, 10]} intensity={0.8} />
-        <FloatingShape position={[-2, 1, 0]} color="#6366f1" />
-        <FloatingShape position={[2, -1, -1]} color="#8b5cf6" />
-        <FloatingShape position={[0, 2, -2]} color="#06b6d4" />
-        <FloatingShape position={[-1, -2, 1]} color="#10b981" />
-      </Canvas>
+    <div className="absolute inset-0 -z-10 overflow-hidden">
+      {/* Simple animated floating shapes */}
+      <div className="absolute top-20 left-10 w-8 h-8 bg-primary/20 rounded-full animate-float-gentle" 
+           style={{ animationDelay: '0s' }} />
+      <div className="absolute top-40 right-20 w-6 h-6 bg-accent/20 rounded-full animate-float-gentle" 
+           style={{ animationDelay: '2s' }} />
+      <div className="absolute bottom-40 left-20 w-10 h-10 bg-secondary/20 rounded-full animate-float-gentle" 
+           style={{ animationDelay: '4s' }} />
+      <div className="absolute bottom-20 right-10 w-7 h-7 bg-primary/30 rounded-full animate-float-gentle" 
+           style={{ animationDelay: '1s' }} />
     </div>
   )
 }
