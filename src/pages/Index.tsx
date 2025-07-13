@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion';
-import { Hero } from '@/components/Hero';
-import { ServiceCard } from '@/components/ServiceCard';
-import { TestimonialSlider } from '@/components/TestimonialSlider';
-import { CTASection } from '@/components/CTASection';
-import { InteractiveTools } from '@/components/InteractiveTools';
-import { services } from '@/data/services';
+import { motion } from "framer-motion";
+import { ServiceCard } from "@/components/ServiceCard";
+import { CTASection } from "@/components/CTASection";
+import { TestimonialSlider } from "@/components/TestimonialSlider";
+import { InteractiveTools } from "@/components/InteractiveTools";
+import { services } from "@/data/services";
+import { EnhancedHero } from "@/components/EnhancedHero";
 import { Zap, Target, Users, TrendingUp } from 'lucide-react';
 
 const processSteps = [
@@ -33,8 +33,8 @@ const processSteps = [
 const Index = () => {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <Hero />
+      {/* Enhanced Hero Section */}
+      <EnhancedHero />
       
       {/* Services Section */}
       <section className="py-24 bg-background">

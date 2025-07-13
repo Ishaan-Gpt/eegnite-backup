@@ -181,5 +181,25 @@
     .canvas-wide {
       padding: 0 1rem;
     }
+  /* Advanced Gradients and Animations */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+
+  .bg-gradient-conic {
+    background: conic-gradient(var(--tw-gradient-stops));
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  @keyframes float-gentle {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+  }
+
+  .animate-float-gentle {
+    animation: float-gentle 6s ease-in-out infinite;
   }
 }
