@@ -5,6 +5,9 @@ import { TestimonialSlider } from "@/components/TestimonialSlider";
 import { InteractiveTools } from "@/components/InteractiveTools";
 import { services } from "@/data/services";
 import { EnhancedHero } from "@/components/EnhancedHero";
+import { EegniteTimeline } from "@/components/EegniteTimeline";
+import { ServicesGrid } from "@/components/ServicesGrid";
+import { FeaturesShowcase } from "@/components/FeaturesShowcase";
 import { Zap, Target, Users, TrendingUp } from 'lucide-react';
 
 const processSteps = [
@@ -112,8 +115,17 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Enhanced Services Grid */}
+      <ServicesGrid />
+
       {/* Interactive Tools */}
       <InteractiveTools />
+
+      {/* Company Timeline */}
+      <EegniteTimeline />
+
+      {/* Features Showcase */}
+      <FeaturesShowcase />
 
       {/* Testimonials */}
       <TestimonialSlider />
