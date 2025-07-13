@@ -181,6 +181,8 @@
     .canvas-wide {
       padding: 0 1rem;
     }
+  }
+
   /* Advanced Gradients and Animations */
   .bg-gradient-radial {
     background: radial-gradient(circle, var(--tw-gradient-stops));
