@@ -145,7 +145,10 @@ const Index = () => {
       <ServicesGrid />
 
       {/* Interactive Tools */}
-      <InteractiveTools />
+          <InteractiveTools />
+          
+          {/* Team Section */}
+          <TeamSection />
 
       {/* Company Timeline */}
       <EegniteTimeline />

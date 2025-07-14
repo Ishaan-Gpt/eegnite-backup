@@ -20,7 +20,7 @@ const caseStudies = [
       roas: '4.8x',
       timeline: '6 months'
     },
-    image: '/api/placeholder/600/400',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop',
     featured: true,
     metrics: [
       { label: 'Revenue Growth', value: '340%', icon: TrendingUp },
@@ -41,7 +41,7 @@ const caseStudies = [
       roas: '5.2x',
       timeline: '8 months'
     },
-    image: '/api/placeholder/600/400',
+    image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop',
     featured: false,
     metrics: [
       { label: 'Revenue Growth', value: '280%', icon: TrendingUp },
@@ -62,7 +62,7 @@ const caseStudies = [
       roas: '6.1x',
       timeline: '10 months'
     },
-    image: '/api/placeholder/600/400',
+    image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop',
     featured: true,
     metrics: [
       { label: 'Revenue Growth', value: '420%', icon: TrendingUp },
@@ -83,7 +83,7 @@ const caseStudies = [
       roas: '4.2x',
       timeline: '5 months'
     },
-    image: '/api/placeholder/600/400',
+    image: 'https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?w=600&h=400&fit=crop',
     featured: false,
     metrics: [
       { label: 'App Downloads', value: '250%', icon: TrendingUp },
@@ -104,7 +104,7 @@ const caseStudies = [
       roas: '5.5x',
       timeline: '7 months'
     },
-    image: '/api/placeholder/600/400',
+    image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&h=400&fit=crop',
     featured: false,
     metrics: [
       { label: 'Course Sales', value: '380%', icon: TrendingUp },
@@ -125,7 +125,7 @@ const caseStudies = [
       roas: '4.9x',
       timeline: '9 months'
     },
-    image: '/api/placeholder/600/400',
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop',
     featured: false,
     metrics: [
       { label: 'Online Revenue', value: '310%', icon: TrendingUp },

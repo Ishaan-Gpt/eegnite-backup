@@ -20,8 +20,8 @@ const resources = [
     description: 'A comprehensive 50-point checklist to audit your current marketing performance and identify growth opportunities.',
     category: 'guides',
     type: 'PDF Guide',
-    downloadUrl: '#',
-    image: '/api/placeholder/400/250',
+    downloadUrl: '/downloads/digital-marketing-audit-checklist.pdf',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop',
     featured: true,
     readTime: '15 min read'
   },
@@ -31,8 +31,8 @@ const resources = [
     description: 'Calculate the potential return on investment for your marketing campaigns with our advanced calculator.',
     category: 'tools',
     type: 'Interactive Tool',
-    downloadUrl: '#',
-    image: '/api/placeholder/400/250',
+    downloadUrl: '/downloads/roi-calculator.xlsx',
+    image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=250&fit=crop',
     featured: true,
     readTime: '5 min use'
   },
@@ -42,8 +42,8 @@ const resources = [
     description: 'Learn the exact framework we use to help businesses scale from 6 to 7 figures in revenue.',
     category: 'webinars',
     type: 'Webinar Recording',
-    downloadUrl: '#',
-    image: '/api/placeholder/400/250',
+    downloadUrl: '/downloads/growth-framework-guide.pdf',
+    image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=250&fit=crop',
     featured: false,
     readTime: '45 min watch'
   },
@@ -53,8 +53,8 @@ const resources = [
     description: 'Ready-to-use email templates and automation sequences for different stages of the customer journey.',
     category: 'guides',
     type: 'Template Pack',
-    downloadUrl: '#',
-    image: '/api/placeholder/400/250',
+    downloadUrl: '/downloads/email-templates.zip',
+    image: 'https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?w=400&h=250&fit=crop',
     featured: false,
     readTime: '10 min setup'
   },
@@ -65,7 +65,7 @@ const resources = [
     category: 'tools',
     type: 'Toolkit',
     downloadUrl: '#',
-    image: '/api/placeholder/400/250',
+    image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=250&fit=crop',
     featured: true,
     readTime: '30 min use'
   },
@@ -76,7 +76,7 @@ const resources = [
     category: 'guides',
     type: 'Spreadsheet',
     downloadUrl: '#',
-    image: '/api/placeholder/400/250',
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop',
     featured: false,
     readTime: '5 min setup'
   },
@@ -87,7 +87,7 @@ const resources = [
     category: 'webinars',
     type: 'Video Course',
     downloadUrl: '#',
-    image: '/api/placeholder/400/250',
+    image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=400&h=250&fit=crop',
     featured: false,
     readTime: '2 hour watch'
   },
@@ -98,7 +98,7 @@ const resources = [
     category: 'tools',
     type: 'Spreadsheet Tool',
     downloadUrl: '#',
-    image: '/api/placeholder/400/250',
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=250&fit=crop',
     featured: false,
     readTime: '20 min setup'
   }
@@ -113,7 +113,7 @@ const blogPosts = [
     date: '2024-01-15',
     readTime: '8 min read',
     category: 'Growth Strategy',
-    image: '/api/placeholder/400/250'
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop'
   },
   {
     id: 2,
@@ -123,7 +123,7 @@ const blogPosts = [
     date: '2024-01-12',
     readTime: '6 min read',
     category: 'Conversion Optimization',
-    image: '/api/placeholder/400/250'
+    image: 'https://images.unsplash.com/photo-1494790108755-2616b332a34f?w=400&h=250&fit=crop'
   },
   {
     id: 3,
@@ -133,7 +133,7 @@ const blogPosts = [
     date: '2024-01-10',
     readTime: '10 min read',
     category: 'Email Marketing',
-    image: '/api/placeholder/400/250'
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=250&fit=crop'
   }
 ];
 
