@@ -6,7 +6,6 @@ import { Helmet } from "react-helmet-async";
 import { companyStats } from '@/data/companyStats';
 import { EegniteTimeline } from '@/components/EegniteTimeline';
 import { TeamSection } from '@/components/TeamSection';
-import Testimonials from '@/components/ui/testimonials-columns-1';
 
 const founderStory = {
   name: "Alex Chen",
@@ -187,9 +186,6 @@ const About = () => {
 
         {/* Company Timeline Section (duplicated from landing page) */}
         <EegniteTimeline />
-
-        {/* Testimonials Section (shared with landing page) */}
-        <Testimonials />
 
         {/* Newsletter Subscription (unified with Resources page) */}
         {/* Import and use the same newsletter subscription form/logic as Resources page here */}
