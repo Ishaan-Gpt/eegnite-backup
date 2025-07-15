@@ -16,11 +16,13 @@ export function EegniteTimeline() {
               src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=800&auto=format&fit=crop"
               alt="Business Strategy"
               className="rounded-lg object-cover h-32 md:h-44 lg:h-60 w-full shadow-elegant"
+              loading="lazy"
             />
             <img
               src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop"
               alt="Data Analytics"
               className="rounded-lg object-cover h-32 md:h-44 lg:h-60 w-full shadow-elegant"
+              loading="lazy"
             />
           </div>
           <div className="space-y-2">
@@ -52,11 +54,13 @@ export function EegniteTimeline() {
               src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop"
               alt="Team Collaboration"
               className="rounded-lg object-cover h-32 md:h-44 lg:h-60 w-full shadow-elegant"
+              loading="lazy"
             />
             <img
               src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop"
               alt="Business Analytics"
               className="rounded-lg object-cover h-32 md:h-44 lg:h-60 w-full shadow-elegant"
+              loading="lazy"
             />
           </div>
           <div className="space-y-2">
@@ -106,11 +110,13 @@ export function EegniteTimeline() {
               src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"
               alt="Business Foundation"
               className="rounded-lg object-cover h-32 md:h-44 lg:h-60 w-full shadow-elegant"
+              loading="lazy"
             />
             <img
               src="https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?q=80&w=800&auto=format&fit=crop"
               alt="Strategic Planning"
               className="rounded-lg object-cover h-32 md:h-44 lg:h-60 w-full shadow-elegant"
+              loading="lazy"
             />
           </div>
         </div>

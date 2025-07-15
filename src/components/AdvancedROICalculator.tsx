@@ -8,6 +8,9 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface CalculatorInputs {
   monthlyBudget: number;
@@ -51,16 +54,39 @@ const campaignTypes = [
   { value: 'influencer', label: 'Influencer Marketing', leadMultiplier: 1.1 }
 ];
 
+const calculatorSchema = z.object({
+  monthlyBudget: z.number().min(1, "Monthly budget is required"),
+  industry: z.string().min(2, "Industry is required"),
+  campaignType: z.string().min(2, "Campaign type is required"),
+  targetAudience: z.number().min(1, "Target audience is required"),
+  expectedCTR: z.number().min(0.1, "CTR must be at least 0.1%"),
+  avgOrderValue: z.number().min(1, "Average order value is required"),
+  conversionRate: z.number().min(0.1, "Conversion rate is required"),
+  timeframe: z.number().min(1, "Timeframe is required"),
+});
+
+type CalculatorFormData = z.infer<typeof calculatorSchema>;
+
 export function AdvancedROICalculator() {
-  const [inputs, setInputs] = useState<CalculatorInputs>({
-    monthlyBudget: 5000,
-    industry: 'ecommerce',
-    campaignType: 'ppc',
-    targetAudience: 100000,
-    expectedCTR: 2.5,
-    avgOrderValue: 150,
-    conversionRate: 3.5,
-    timeframe: 12
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    reset,
+  } = useForm<CalculatorFormData>({
+    resolver: zodResolver(calculatorSchema),
+    defaultValues: {
+      monthlyBudget: 5000,
+      industry: 'ecommerce',
+      campaignType: 'ppc',
+      targetAudience: 100000,
+      expectedCTR: 2.5,
+      avgOrderValue: 150,
+      conversionRate: 3.5,
+      timeframe: 12,
+    },
   });
 
   const [results, setResults] = useState<CalculatorResults>({
@@ -75,30 +101,32 @@ export function AdvancedROICalculator() {
   });
 
   const [showResults, setShowResults] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   useEffect(() => {
     calculateROI();
-  }, [inputs]);
+  }, [watch()]);
 
   const calculateROI = () => {
-    const industryMultiplier = industries.find(i => i.value === inputs.industry)?.multiplier || 1.0;
-    const campaignMultiplier = campaignTypes.find(c => c.value === inputs.campaignType)?.leadMultiplier || 1.0;
+    const industryMultiplier = industries.find(i => i.value === watch('industry'))?.multiplier || 1.0;
+    const campaignMultiplier = campaignTypes.find(c => c.value === watch('campaignType'))?.leadMultiplier || 1.0;
     
-    const totalInvestment = inputs.monthlyBudget * inputs.timeframe;
-    const monthlyImpressions = Math.round(inputs.targetAudience * 0.8);
-    const monthlyClicks = Math.round(monthlyImpressions * (inputs.expectedCTR / 100));
+    const totalInvestment = watch('monthlyBudget') * watch('timeframe');
+    const monthlyImpressions = Math.round(watch('targetAudience') * 0.8);
+    const monthlyClicks = Math.round(monthlyImpressions * (watch('expectedCTR') / 100));
     const monthlyLeads = Math.round(monthlyClicks * campaignMultiplier);
-    const monthlyCustomers = Math.round(monthlyLeads * (inputs.conversionRate / 100));
-    const monthlyRevenue = monthlyCustomers * inputs.avgOrderValue * industryMultiplier;
+    const monthlyCustomers = Math.round(monthlyLeads * (watch('conversionRate') / 100));
+    const monthlyRevenue = monthlyCustomers * watch('avgOrderValue') * industryMultiplier;
     
-    const totalLeads = monthlyLeads * inputs.timeframe;
-    const totalCustomers = monthlyCustomers * inputs.timeframe;
-    const totalRevenue = monthlyRevenue * inputs.timeframe;
+    const totalLeads = monthlyLeads * watch('timeframe');
+    const totalCustomers = monthlyCustomers * watch('timeframe');
+    const totalRevenue = monthlyRevenue * watch('timeframe');
     
     const roi = ((totalRevenue - totalInvestment) / totalInvestment) * 100;
     const roas = totalRevenue / totalInvestment;
     const breakEvenPoint = totalInvestment / monthlyRevenue;
-    const monthlyROI = roi / inputs.timeframe;
+    const monthlyROI = roi / watch('timeframe');
 
     setResults({
       totalInvestment,
@@ -112,8 +140,25 @@ export function AdvancedROICalculator() {
     });
   };
 
-  const handleCalculate = () => {
-    setShowResults(true);
+  const handleCalculate = async (data: CalculatorFormData) => {
+    setLoading(true);
+    setApiError(null);
+    try {
+      // Simulate API call
+      const API_URL = import.meta.env.VITE_ROI_API_URL;
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error('Failed to calculate ROI');
+      const result = await response.json();
+      setResults(result);
+    } catch (err) {
+      setApiError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getROIColor = (roi: number) => {
@@ -157,15 +202,15 @@ export function AdvancedROICalculator() {
               <Input
                 id="monthlyBudget"
                 type="number"
-                value={inputs.monthlyBudget}
-                onChange={(e) => setInputs({...inputs, monthlyBudget: parseInt(e.target.value) || 0})}
+                {...register('monthlyBudget')}
                 className="text-lg"
               />
+              {errors.monthlyBudget && <p className="text-red-500 text-sm">{errors.monthlyBudget.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="industry">Industry</Label>
-              <Select value={inputs.industry} onValueChange={(value) => setInputs({...inputs, industry: value})}>
+              <Select value={watch('industry')} onValueChange={(value) => setValue('industry', value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select your industry" />
                 </SelectTrigger>
@@ -177,11 +222,12 @@ export function AdvancedROICalculator() {
                   ))}
                 </SelectContent>
               </Select>
+              {errors.industry && <p className="text-red-500 text-sm">{errors.industry.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="campaignType">Campaign Type</Label>
-              <Select value={inputs.campaignType} onValueChange={(value) => setInputs({...inputs, campaignType: value})}>
+              <Select value={watch('campaignType')} onValueChange={(value) => setValue('campaignType', value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select campaign type" />
                 </SelectTrigger>
@@ -193,6 +239,7 @@ export function AdvancedROICalculator() {
                   ))}
                 </SelectContent>
               </Select>
+              {errors.campaignType && <p className="text-red-500 text-sm">{errors.campaignType.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -200,21 +247,22 @@ export function AdvancedROICalculator() {
               <Input
                 id="targetAudience"
                 type="number"
-                value={inputs.targetAudience}
-                onChange={(e) => setInputs({...inputs, targetAudience: parseInt(e.target.value) || 0})}
+                {...register('targetAudience')}
               />
+              {errors.targetAudience && <p className="text-red-500 text-sm">{errors.targetAudience.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="expectedCTR">Expected CTR (%): {inputs.expectedCTR}%</Label>
+              <Label htmlFor="expectedCTR">Expected CTR (%): {watch('expectedCTR')}%</Label>
               <Slider
-                value={[inputs.expectedCTR]}
-                onValueChange={(value) => setInputs({...inputs, expectedCTR: value[0]})}
+                value={[watch('expectedCTR')]}
+                onValueChange={(value) => setValue('expectedCTR', value[0])}
                 max={10}
                 min={0.1}
                 step={0.1}
                 className="w-full"
               />
+              {errors.expectedCTR && <p className="text-red-500 text-sm">{errors.expectedCTR.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -222,42 +270,46 @@ export function AdvancedROICalculator() {
               <Input
                 id="avgOrderValue"
                 type="number"
-                value={inputs.avgOrderValue}
-                onChange={(e) => setInputs({...inputs, avgOrderValue: parseInt(e.target.value) || 0})}
+                {...register('avgOrderValue')}
               />
+              {errors.avgOrderValue && <p className="text-red-500 text-sm">{errors.avgOrderValue.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="conversionRate">Conversion Rate (%): {inputs.conversionRate}%</Label>
+              <Label htmlFor="conversionRate">Conversion Rate (%): {watch('conversionRate')}%</Label>
               <Slider
-                value={[inputs.conversionRate]}
-                onValueChange={(value) => setInputs({...inputs, conversionRate: value[0]})}
+                value={[watch('conversionRate')]}
+                onValueChange={(value) => setValue('conversionRate', value[0])}
                 max={15}
                 min={0.1}
                 step={0.1}
                 className="w-full"
               />
+              {errors.conversionRate && <p className="text-red-500 text-sm">{errors.conversionRate.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="timeframe">Campaign Duration (months): {inputs.timeframe}</Label>
+              <Label htmlFor="timeframe">Campaign Duration (months): {watch('timeframe')}</Label>
               <Slider
-                value={[inputs.timeframe]}
-                onValueChange={(value) => setInputs({...inputs, timeframe: value[0]})}
+                value={[watch('timeframe')]}
+                onValueChange={(value) => setValue('timeframe', value[0])}
                 max={24}
                 min={1}
                 step={1}
                 className="w-full"
               />
+              {errors.timeframe && <p className="text-red-500 text-sm">{errors.timeframe.message}</p>}
             </div>
 
             <Button 
-              onClick={handleCalculate} 
+              onClick={handleSubmit(handleCalculate)} 
+              disabled={loading}
               className="w-full bg-gradient-orange hover:bg-gradient-orange/90"
               size="lg"
             >
-              Calculate ROI
+              {loading ? 'Calculating...' : 'Calculate ROI'}
             </Button>
+            {apiError && <p className="text-destructive text-sm mt-2">{apiError}</p>}
           </CardContent>
         </Card>
 
@@ -333,7 +385,7 @@ export function AdvancedROICalculator() {
                   <ul className="text-sm text-blue-800 space-y-1">
                     {results.roi < 100 && <li>• Consider increasing your conversion rate through A/B testing</li>}
                     {results.breakEvenPoint > 6 && <li>• Focus on improving your average order value</li>}
-                    {inputs.expectedCTR < 2 && <li>• Optimize your ad creative to improve click-through rates</li>}
+                    {watch('expectedCTR') < 2 && <li>• Optimize your ad creative to improve click-through rates</li>}
                     <li>• Test different audience segments to find the most profitable customers</li>
                   </ul>
                 </div>
@@ -347,6 +399,7 @@ export function AdvancedROICalculator() {
           </CardContent>
         </Card>
       </div>
+      {/* Integration point: Set VITE_ROI_API_URL in your .env file to your backend endpoint. */}
     </div>
   );
 }

@@ -114,7 +114,7 @@ export function TestimonialSlider() {
                 onClick={prevTestimonial}
                 className="rounded-full bg-card/80 backdrop-blur-sm border-border hover:bg-primary hover:text-primary-foreground"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-4 h-4" aria-label="Previous testimonial" />
               </Button>
             </div>
             

@@ -19,19 +19,19 @@ export function ServicesGrid() {
       <ul className="grid grid-cols-1 grid-rows-none gap-6 md:grid-cols-12 md:grid-rows-3 lg:gap-6 xl:max-h-[40rem] xl:grid-rows-2">
         <GridItem
           area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
-          icon={<BarChart3 className="h-5 w-5" />}
+          icon={<BarChart3 className="h-5 w-5" aria-label="Strategic Analytics icon" />}
           title="Strategic Analytics"
           description="Transform your data into actionable insights with our advanced analytics solutions and business intelligence frameworks."
         />
         <GridItem
           area="md:[grid-area:1/7/2/13] xl:[grid-area:2/1/3/5]"
-          icon={<Users className="h-5 w-5" />}
+          icon={<Users className="h-5 w-5" aria-label="Organizational Excellence icon" />}
           title="Organizational Excellence"
           description="Optimize your team structure and processes for maximum efficiency and sustainable growth."
         />
         <GridItem
           area="md:[grid-area:2/1/3/7] xl:[grid-area:1/5/3/8]"
-          icon={<Lightbulb className="h-5 w-5" />}
+          icon={<Lightbulb className="h-5 w-5" aria-label="Innovation Strategy icon" />}
           title="Innovation Strategy"
           description="Drive innovation through strategic planning, technology adoption, and competitive market positioning."
         />

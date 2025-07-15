@@ -5,6 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Helmet } from "react-helmet-async";
+import { supabase } from '@/lib/supabaseClient';
+import { useToast } from '@/hooks/use-toast';
 
 const resourceCategories = [
   { id: 'all', label: 'All Resources', icon: BookOpen },
@@ -140,6 +143,9 @@ const blogPosts = [
 const Resources = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
+  const { toast } = useToast();
   
   const filteredResources = resources.filter(resource => {
     const matchesCategory = selectedCategory === 'all' || resource.category === selectedCategory;
@@ -150,125 +156,102 @@ const Resources = () => {
 
   const featuredResources = resources.filter(resource => resource.featured);
 
+  const handleNewsletterSubscribe = async () => {
+    if (!newsletterEmail || !newsletterEmail.includes('@')) {
+      toast({
+        title: 'Invalid Email',
+        description: 'Please enter a valid email address.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    setNewsletterLoading(true);
+    try {
+      const { error } = await supabase.from('NewsletterSignup').insert([
+        { email: newsletterEmail }
+      ]);
+      if (error && !error.message.includes('duplicate key')) {
+        toast({
+          title: 'Newsletter Error',
+          description: error.message,
+          variant: 'destructive',
+        });
+      } else if (!error) {
+        toast({
+          title: 'Subscribed!',
+          description: "You've been added to our newsletter.",
+        });
+        setNewsletterEmail('');
+      }
+    } catch (err) {
+      toast({
+        title: 'Error',
+        description: err instanceof Error ? err.message : 'Something went wrong. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setNewsletterLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 lg:pb-24 bg-gradient-subtle">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <h1 className="text-4xl lg:text-6xl font-clash font-bold text-foreground mb-6">
-              Free Growth <span className="text-primary">Resources</span>
-            </h1>
-            <p className="text-xl text-muted-foreground font-satoshi leading-relaxed mb-8">
-              Access our library of proven templates, tools, and guides that have helped 
-              hundreds of businesses accelerate their growth.
-            </p>
-            
-            {/* Search */}
-            <div className="relative max-w-md mx-auto">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-              <Input
-                placeholder="Search resources..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 py-3 text-lg"
-              />
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Featured Resources */}
-      <section className="py-16 lg:py-24 bg-background">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
-              Most <span className="text-primary">Popular Resources</span>
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredResources.map((resource, index) => (
-              <motion.div
-                key={resource.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-elegant transition-shadow duration-300"
-              >
-                <img 
-                  src={resource.image} 
-                  alt={resource.title}
-                  className="w-full h-48 object-cover"
+    <>
+      <Helmet>
+        <title>Resources | EEGNITE</title>
+        <meta name="description" content="Download free digital marketing resources, guides, and tools from EEGNITE." />
+        <meta property="og:title" content="Resources | EEGNITE" />
+        <meta property="og:description" content="Download free digital marketing resources, guides, and tools from EEGNITE." />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <div className="min-h-screen">
+        {/* Hero Section */}
+        <section className="pt-32 pb-16 lg:pb-24 bg-gradient-subtle">
+          <div className="container mx-auto px-4 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="max-w-4xl mx-auto text-center"
+            >
+              <h1 className="text-4xl lg:text-6xl font-clash font-bold text-foreground mb-6">
+                Free Growth <span className="text-primary">Resources</span>
+              </h1>
+              <p className="text-xl text-muted-foreground font-satoshi leading-relaxed mb-8">
+                Access our library of proven templates, tools, and guides that have helped 
+                hundreds of businesses accelerate their growth.
+              </p>
+              
+              {/* Search */}
+              <div className="relative max-w-md mx-auto">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                <Input
+                  placeholder="Search resources..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 py-3 text-lg"
                 />
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Badge variant="secondary" className="font-satoshi">
-                      {resource.type}
-                    </Badge>
-                    <Badge className="bg-gradient-orange text-primary-foreground font-satoshi">
-                      Popular
-                    </Badge>
-                  </div>
-                  
-                  <h3 className="text-xl font-clash font-bold text-foreground mb-3">
-                    {resource.title}
-                  </h3>
-                  
-                  <p className="text-muted-foreground font-satoshi mb-4 line-clamp-3">
-                    {resource.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground font-satoshi">
-                      {resource.readTime}
-                    </span>
-                    <Button className="bg-gradient-orange hover:bg-gradient-orange/90 text-primary-foreground font-satoshi">
-                      <Download className="w-4 h-4 mr-2" />
-                      Download
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+              </div>
+            </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* All Resources */}
-      <section className="py-16 lg:py-24 bg-gradient-subtle">
-        <div className="container mx-auto px-4 lg:px-8">
-          <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-16">
-              {resourceCategories.map((category) => {
-                const IconComponent = category.icon;
-                return (
-                  <TabsTrigger 
-                    key={category.id} 
-                    value={category.id}
-                    className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                  >
-                    <IconComponent className="w-4 h-4 mr-2" />
-                    {category.label}
-                  </TabsTrigger>
-                );
-              })}
-            </TabsList>
-            
+        {/* Featured Resources */}
+        <section className="py-16 lg:py-24 bg-background">
+          <div className="container mx-auto px-4 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
+                Most <span className="text-primary">Popular Resources</span>
+              </h2>
+            </motion.div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredResources.map((resource, index) => (
+              {featuredResources.map((resource, index) => (
                 <motion.div
                   key={resource.id}
                   initial={{ opacity: 0, y: 30 }}
@@ -281,24 +264,23 @@ const Resources = () => {
                     src={resource.image} 
                     alt={resource.title}
                     className="w-full h-48 object-cover"
+                    loading="lazy"
                   />
                   <div className="p-6">
                     <div className="flex items-center gap-2 mb-3">
                       <Badge variant="secondary" className="font-satoshi">
                         {resource.type}
                       </Badge>
-                      {resource.featured && (
-                        <Badge className="bg-gradient-orange text-primary-foreground font-satoshi">
-                          Popular
-                        </Badge>
-                      )}
+                      <Badge className="bg-gradient-orange text-primary-foreground font-satoshi">
+                        Popular
+                      </Badge>
                     </div>
                     
-                    <h3 className="text-lg font-clash font-bold text-foreground mb-3">
+                    <h3 className="text-xl font-clash font-bold text-foreground mb-3">
                       {resource.title}
                     </h3>
                     
-                    <p className="text-muted-foreground font-satoshi mb-4 line-clamp-2">
+                    <p className="text-muted-foreground font-satoshi mb-4 line-clamp-3">
                       {resource.description}
                     </p>
                     
@@ -306,121 +288,201 @@ const Resources = () => {
                       <span className="text-sm text-muted-foreground font-satoshi">
                         {resource.readTime}
                       </span>
-                      <Button variant="outline" className="font-satoshi">
+                      <Button className="bg-gradient-orange hover:bg-gradient-orange/90 text-primary-foreground font-satoshi">
                         <Download className="w-4 h-4 mr-2" />
-                        Get Free
+                        Download
                       </Button>
                     </div>
                   </div>
                 </motion.div>
               ))}
             </div>
-          </Tabs>
-        </div>
-      </section>
-
-      {/* Blog Section */}
-      <section className="py-16 lg:py-24 bg-background">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
-              Latest <span className="text-primary">Growth Insights</span>
-            </h2>
-            <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
-              Stay up-to-date with the latest growth strategies, tactics, and industry insights.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post, index) => (
-              <motion.article
-                key={post.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-elegant transition-shadow duration-300"
-              >
-                <img 
-                  src={post.image} 
-                  alt={post.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <Badge variant="secondary" className="font-satoshi mb-3">
-                    {post.category}
-                  </Badge>
-                  
-                  <h3 className="text-xl font-clash font-bold text-foreground mb-3">
-                    {post.title}
-                  </h3>
-                  
-                  <p className="text-muted-foreground font-satoshi mb-4">
-                    {post.excerpt}
-                  </p>
-                  
-                  <div className="flex items-center justify-between text-sm text-muted-foreground font-satoshi">
-                    <div className="flex items-center gap-2">
-                      <span>{post.author}</span>
-                      <span>•</span>
-                      <span>{new Date(post.date).toLocaleDateString()}</span>
-                    </div>
-                    <span>{post.readTime}</span>
-                  </div>
-                  
-                  <Button variant="ghost" className="w-full mt-4 font-satoshi">
-                    Read More
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </div>
-              </motion.article>
-            ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Newsletter CTA */}
-      <section className="py-16 lg:py-24 bg-gradient-subtle">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center bg-card border border-border rounded-2xl p-12"
-          >
-            <h2 className="text-3xl lg:text-4xl font-clash font-bold text-foreground mb-4">
-              Get Weekly <span className="text-primary">Growth Tips</span>
-            </h2>
-            <p className="text-lg text-muted-foreground font-satoshi mb-8 max-w-2xl mx-auto">
-              Join 5,000+ growth-focused entrepreneurs who receive our weekly newsletter 
-              with actionable insights and strategies.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <Input 
-                placeholder="Enter your email"
-                className="flex-1"
-              />
-              <Button className="bg-gradient-orange hover:bg-gradient-orange/90 text-primary-foreground font-satoshi">
-                Subscribe
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
+        {/* All Resources */}
+        <section className="py-16 lg:py-24 bg-gradient-subtle">
+          <div className="container mx-auto px-4 lg:px-8">
+            <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
+              <TabsList className="grid w-full grid-cols-4 mb-16">
+                {resourceCategories.map((category) => {
+                  const IconComponent = category.icon;
+                  return (
+                    <TabsTrigger 
+                      key={category.id} 
+                      value={category.id}
+                      className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                    >
+                      <IconComponent className="w-4 h-4 mr-2" />
+                      {category.label}
+                    </TabsTrigger>
+                  );
+                })}
+              </TabsList>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredResources.map((resource, index) => (
+                  <motion.div
+                    key={resource.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-elegant transition-shadow duration-300"
+                  >
+                    <img 
+                      src={resource.image} 
+                      alt={resource.title}
+                      className="w-full h-48 object-cover"
+                      loading="lazy"
+                    />
+                    <div className="p-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Badge variant="secondary" className="font-satoshi">
+                          {resource.type}
+                        </Badge>
+                        {resource.featured && (
+                          <Badge className="bg-gradient-orange text-primary-foreground font-satoshi">
+                            Popular
+                          </Badge>
+                        )}
+                      </div>
+                      
+                      <h3 className="text-lg font-clash font-bold text-foreground mb-3">
+                        {resource.title}
+                      </h3>
+                      
+                      <p className="text-muted-foreground font-satoshi mb-4 line-clamp-2">
+                        {resource.description}
+                      </p>
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground font-satoshi">
+                          {resource.readTime}
+                        </span>
+                        <Button variant="outline" className="font-satoshi">
+                          <Download className="w-4 h-4 mr-2" />
+                          Get Free
+                        </Button>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </Tabs>
+          </div>
+        </section>
+
+        {/* Blog Section */}
+        <section className="py-16 lg:py-24 bg-background">
+          <div className="container mx-auto px-4 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
+                Latest <span className="text-primary">Growth Insights</span>
+              </h2>
+              <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
+                Stay up-to-date with the latest growth strategies, tactics, and industry insights.
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {blogPosts.map((post, index) => (
+                <motion.article
+                  key={post.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-elegant transition-shadow duration-300"
+                >
+                  <img 
+                    src={post.image} 
+                    alt={post.title}
+                    className="w-full h-48 object-cover"
+                    loading="lazy"
+                  />
+                  <div className="p-6">
+                    <Badge variant="secondary" className="font-satoshi mb-3">
+                      {post.category}
+                    </Badge>
+                    
+                    <h3 className="text-xl font-clash font-bold text-foreground mb-3">
+                      {post.title}
+                    </h3>
+                    
+                    <p className="text-muted-foreground font-satoshi mb-4">
+                      {post.excerpt}
+                    </p>
+                    
+                    <div className="flex items-center justify-between text-sm text-muted-foreground font-satoshi">
+                      <div className="flex items-center gap-2">
+                        <span>{post.author}</span>
+                        <span>•</span>
+                        <span>{new Date(post.date).toLocaleDateString()}</span>
+                      </div>
+                      <span>{post.readTime}</span>
+                    </div>
+                    
+                    <Button variant="ghost" className="w-full mt-4 font-satoshi">
+                      Read More
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </div>
+                </motion.article>
+              ))}
             </div>
-            
-            <p className="text-sm text-muted-foreground font-satoshi mt-4">
-              No spam. Unsubscribe at any time.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-    </div>
+          </div>
+        </section>
+
+        {/* Newsletter CTA */}
+        <section className="py-16 lg:py-24 bg-gradient-subtle">
+          <div className="container mx-auto px-4 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center bg-card border border-border rounded-2xl p-12"
+            >
+              <h2 className="text-3xl lg:text-4xl font-clash font-bold text-foreground mb-4">
+                Get Weekly <span className="text-primary">Growth Tips</span>
+              </h2>
+              <p className="text-lg text-muted-foreground font-satoshi mb-8 max-w-2xl mx-auto">
+                Join 5,000+ growth-focused entrepreneurs who receive our weekly newsletter 
+                with actionable insights and strategies.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <Input 
+                  placeholder="Enter your email"
+                  className="flex-1"
+                  value={newsletterEmail}
+                  onChange={e => setNewsletterEmail(e.target.value)}
+                  disabled={newsletterLoading}
+                />
+                <Button
+                  className="bg-gradient-orange hover:bg-gradient-orange/90 text-primary-foreground font-satoshi"
+                  onClick={handleNewsletterSubscribe}
+                  disabled={newsletterLoading}
+                >
+                  {newsletterLoading ? 'Subscribing...' : (<><span>Subscribe</span><ArrowRight className="w-4 h-4 ml-2" /></>)}
+                </Button>
+              </div>
+              
+              <p className="text-sm text-muted-foreground font-satoshi mt-4">
+                No spam. Unsubscribe at any time.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+      </div>
+    </>
   );
 };
 

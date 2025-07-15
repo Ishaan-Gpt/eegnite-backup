@@ -19,25 +19,25 @@ export function FeaturesShowcase() {
       <ul className="grid grid-cols-1 grid-rows-none gap-6 md:grid-cols-12 md:grid-rows-2 lg:gap-6">
         <GridItem
           area="md:[grid-area:1/1/2/5]"
-          icon={<Zap className="h-5 w-5" />}
+          icon={<Zap className="h-5 w-5" aria-label="Rapid Implementation icon" />}
           title="Rapid Implementation"
           description="Fast-track your success with our agile consulting approach and proven implementation strategies."
         />
         <GridItem
           area="md:[grid-area:1/5/2/9]"
-          icon={<Shield className="h-5 w-5" />}
+          icon={<Shield className="h-5 w-5" aria-label="Trusted Expertise icon" />}
           title="Trusted Expertise"
           description="Leverage decades of combined experience from industry experts across multiple business domains."
         />
         <GridItem
           area="md:[grid-area:1/9/2/13]"
-          icon={<Rocket className="h-5 w-5" />}
+          icon={<Rocket className="h-5 w-5" aria-label="Growth Focused icon" />}
           title="Growth Focused"
           description="Every solution is designed to accelerate your business growth and competitive advantage."
         />
         <GridItem
           area="md:[grid-area:2/1/3/5]"
-          icon={<Star className="h-5 w-5" />}
+          icon={<Star className="h-5 w-5" aria-label="Premium Quality icon" />}
           title="Premium Quality"
           description="Exceptional service quality with attention to detail that exceeds client expectations consistently."
         />

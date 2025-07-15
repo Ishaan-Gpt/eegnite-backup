@@ -198,8 +198,15 @@ export function EnhancedHero() {
                 key={currentTestimonial}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="p-4 bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl max-w-md cursor-pointer"
+                className="p-4 bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl max-w-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                role="button"
+                tabIndex={0}
                 onClick={() => setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+                  }
+                }}
               >
                 <div className="flex gap-1 mb-2">
                   {[...Array(5)].map((_, i) => (
@@ -251,6 +258,7 @@ export function EnhancedHero() {
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 1, duration: 0.8 }}
+                    loading="lazy"
                   />
                 </Mockup>
               </motion.div>

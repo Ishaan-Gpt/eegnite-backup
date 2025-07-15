@@ -4,6 +4,9 @@ import { X, CreditCard, Smartphone, Building, Shield, Check, ArrowLeft } from 'l
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface PaymentSimulationProps {
   isOpen: boolean;
@@ -12,10 +15,35 @@ interface PaymentSimulationProps {
   planPrice: string;
 }
 
+const paymentSchema = z.object({
+  cardNumber: z.string().min(12, "Card number is required"),
+  expiry: z.string().min(4, "Expiry is required"),
+  cvv: z.string().min(3, "CVV is required"),
+  cardholder: z.string().min(2, "Cardholder name is required"),
+});
+
+type PaymentFormData = z.infer<typeof paymentSchema>;
+
 export function PaymentSimulation({ isOpen, onClose, planName, planPrice }: PaymentSimulationProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<PaymentFormData>({
+    resolver: zodResolver(paymentSchema),
+    defaultValues: {
+      cardNumber: '',
+      expiry: '',
+      cvv: '',
+      cardholder: '',
+    },
+  });
   const [currentStep, setCurrentStep] = useState<'method' | 'card' | 'upi' | 'success'>('method');
   const [selectedMethod, setSelectedMethod] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const handlePaymentMethod = (method: string) => {
     setSelectedMethod(method);
@@ -42,6 +70,28 @@ export function PaymentSimulation({ isOpen, onClose, planName, planPrice }: Paym
     setCurrentStep('method');
     setSelectedMethod('');
     setIsProcessing(false);
+  };
+
+  const API_URL = import.meta.env.VITE_PAYMENT_API_URL;
+
+  const onSubmit = async (data: PaymentFormData) => {
+    setLoading(true);
+    setApiError(null);
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error('Payment failed');
+      // Simulate payment success
+      setCurrentStep('success');
+      reset();
+    } catch (err) {
+      setApiError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

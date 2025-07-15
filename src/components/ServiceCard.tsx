@@ -36,7 +36,7 @@ export function ServiceCard({ service, index }: ServiceCardProps) {
           {/* Icon */}
           <div className="mb-6">
             <div className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-              <Icon className="w-6 h-6 text-primary" />
+              <Icon className="w-6 h-6 text-primary" aria-label={service.title + ' icon'} />
             </div>
           </div>
 

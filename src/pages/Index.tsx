@@ -9,6 +9,8 @@ import { EegniteTimeline } from "@/components/EegniteTimeline";
 import { ServicesGrid } from "@/components/ServicesGrid";
 import { FeaturesShowcase } from "@/components/FeaturesShowcase";
 import { Zap, Target, Users, TrendingUp } from 'lucide-react';
+import { TeamSection } from "@/components/TeamSection";
+import { Helmet } from "react-helmet-async";
 
 const processSteps = [
   {
@@ -35,133 +37,146 @@ const processSteps = [
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
-      {/* Enhanced Hero Section */}
-      <EnhancedHero />
-      
-      {/* Core Services Section */}
-      <section className="py-24 bg-background">
-        <div className="canvas-wide">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
-              Core Growth Services That <span className="text-primary">Drive Results</span>
-            </h2>
-            <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
-              Foundational marketing services designed to establish your market presence and generate consistent leads.
-            </p>
-          </motion.div>
+    <>
+      <Helmet>
+        <title>EEGNITE - Digital Marketing Agency</title>
+        <meta name="description" content="Unlock growth with EEGNITE's data-driven digital marketing, strategy, and analytics solutions." />
+        <meta property="og:title" content="EEGNITE - Digital Marketing Agency" />
+        <meta property="og:description" content="Unlock growth with EEGNITE's data-driven digital marketing, strategy, and analytics solutions." />
+        <meta property="og:image" content="/favicon.ico" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="EEGNITE - Digital Marketing Agency" />
+        <meta name="twitter:description" content="Unlock growth with EEGNITE's data-driven digital marketing, strategy, and analytics solutions." />
+      </Helmet>
+      <div className="min-h-screen">
+        {/* Enhanced Hero Section */}
+        <EnhancedHero />
+        
+        {/* Core Services Section */}
+        <section className="py-24 bg-background">
+          <div className="canvas-wide">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
+                Core Growth Services That <span className="text-primary">Drive Results</span>
+              </h2>
+              <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
+                Foundational marketing services designed to establish your market presence and generate consistent leads.
+              </p>
+            </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.slice(0, 3).map((service, index) => (
-              <ServiceCard key={service.id} service={service} index={index} />
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {services.slice(0, 3).map((service, index) => (
+                <ServiceCard key={service.id} service={service} index={index} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Advanced Growth Solutions Section */}
-      <section className="py-24 bg-gradient-subtle">
-        <div className="canvas-wide">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
-              Advanced Growth <span className="text-primary">Solutions</span>
-            </h2>
-            <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
-              Enterprise-level strategies for businesses ready to scale aggressively and dominate their market.
-            </p>
-          </motion.div>
+        {/* Advanced Growth Solutions Section */}
+        <section className="py-24 bg-gradient-subtle">
+          <div className="canvas-wide">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
+                Advanced Growth <span className="text-primary">Solutions</span>
+              </h2>
+              <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
+                Enterprise-level strategies for businesses ready to scale aggressively and dominate their market.
+              </p>
+            </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.slice(3).map((service, index) => (
-              <ServiceCard key={service.id} service={service} index={index + 3} />
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {services.slice(3).map((service, index) => (
+                <ServiceCard key={service.id} service={service} index={index + 3} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Process Section */}
-      <section className="py-16 lg:py-24 bg-gradient-subtle">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
-              Our Proven <span className="text-primary">Growth Process</span>
-            </h2>
-            <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
-              A systematic approach to digital marketing that has generated over $50M in revenue for our clients.
-            </p>
-          </motion.div>
+        {/* Process Section */}
+        <section className="py-16 lg:py-24 bg-gradient-subtle">
+          <div className="container mx-auto px-4 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
+                Our Proven <span className="text-primary">Growth Process</span>
+              </h2>
+              <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
+                A systematic approach to digital marketing that has generated over $50M in revenue for our clients.
+              </p>
+            </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {processSteps.map((step, index) => (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center relative"
-              >
-                {/* Connecting Line */}
-                {index < processSteps.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-primary to-transparent transform translate-x-4" />
-                )}
-                
-                <div className="relative">
-                  <div className="w-16 h-16 rounded-full bg-gradient-orange text-primary-foreground flex items-center justify-center font-clash font-bold text-xl mx-auto mb-4 shadow-orange">
-                    {step.number}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {processSteps.map((step, index) => (
+                <motion.div
+                  key={step.number}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="text-center relative"
+                >
+                  {/* Connecting Line */}
+                  {index < processSteps.length - 1 && (
+                    <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-primary to-transparent transform translate-x-4" />
+                  )}
+                  
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-full bg-gradient-orange text-primary-foreground flex items-center justify-center font-clash font-bold text-xl mx-auto mb-4 shadow-orange">
+                      {step.number}
+                    </div>
+                    <h3 className="text-xl font-clash font-semibold text-foreground mb-3">
+                      {step.title}
+                    </h3>
+                    <p className="text-muted-foreground font-satoshi leading-relaxed">
+                      {step.description}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-clash font-semibold text-foreground mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-muted-foreground font-satoshi leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Enhanced Services Grid */}
-      <ServicesGrid />
+        {/* Enhanced Services Grid */}
+        <ServicesGrid />
 
-      {/* Interactive Tools */}
-          <InteractiveTools />
-          
-          {/* Team Section */}
-          <TeamSection />
+        {/* Interactive Tools */}
+            <InteractiveTools />
+            
+            {/* Team Section */}
+            <TeamSection />
 
-      {/* Company Timeline */}
-      <EegniteTimeline />
+        {/* Company Timeline */}
+        <EegniteTimeline />
 
-      {/* Features Showcase */}
-      <FeaturesShowcase />
+        {/* Features Showcase */}
+        <FeaturesShowcase />
 
-      {/* Testimonials */}
-      <Testimonials />
+        {/* Testimonials */}
+        <Testimonials />
 
-      {/* CTA Section */}
-      <CTASection />
-    </div>
+        {/* CTA Section */}
+        <CTASection />
+      </div>
+    </>
   );
 };
 

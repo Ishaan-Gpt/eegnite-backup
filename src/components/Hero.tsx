@@ -191,7 +191,7 @@ export function Hero() {
                 >
                   <div className="flex items-center justify-center mb-4">
                     <div className="p-3 rounded-2xl glass-strong group-hover:scale-110 transition-transform duration-300">
-                      <Icon className="w-6 h-6 text-primary" />
+                      <Icon className="w-6 h-6 text-primary" aria-label={stat.label + ' icon'} />
                     </div>
                   </div>
                   <div className="text-3xl lg:text-4xl font-clash font-bold gradient-text mb-2">

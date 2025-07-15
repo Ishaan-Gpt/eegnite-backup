@@ -7,6 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function InteractiveTools() {
   return (
@@ -33,21 +36,21 @@ export function InteractiveTools() {
               value="roi-calculator" 
               className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-xl font-inter font-semibold"
             >
-              <Calculator className="w-4 h-4 mr-2" />
+              <Calculator className="w-4 h-4 mr-2" aria-label="ROI Calculator icon" />
               ROI Calculator
             </TabsTrigger>
             <TabsTrigger 
               value="audit-tool" 
               className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-xl font-inter font-semibold"
             >
-              <BarChart3 className="w-4 h-4 mr-2" />
+              <BarChart3 className="w-4 h-4 mr-2" aria-label="Marketing Audit icon" />
               Marketing Audit
             </TabsTrigger>
             <TabsTrigger 
               value="lead-quiz" 
               className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-xl font-inter font-semibold"
             >
-              <Target className="w-4 h-4 mr-2" />
+              <Target className="w-4 h-4 mr-2" aria-label="Lead Score Quiz icon" />
               Lead Score Quiz
             </TabsTrigger>
           </TabsList>
@@ -69,86 +72,90 @@ export function InteractiveTools() {
   );
 }
 
+const roiSchema = z.object({
+  monthlySpend: z.string().min(1, "Monthly spend is required"),
+  conversionRate: z.string().min(1, "Conversion rate is required"),
+  averageOrderValue: z.string().min(1, "Average order value is required"),
+  customerLifetimeValue: z.string().optional(),
+});
+
+type ROIFormData = z.infer<typeof roiSchema>;
+
 function ROICalculator() {
-  const [values, setValues] = useState({
-    monthlySpend: '',
-    conversionRate: '',
-    averageOrderValue: '',
-    customerLifetimeValue: ''
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ROIFormData>({
+    resolver: zodResolver(roiSchema),
+    defaultValues: {
+      monthlySpend: '',
+      conversionRate: '',
+      averageOrderValue: '',
+      customerLifetimeValue: '',
+    },
   });
   const [results, setResults] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
-  const calculateROI = () => {
-    const spend = parseFloat(values.monthlySpend);
-    const rate = parseFloat(values.conversionRate) / 100;
-    const aov = parseFloat(values.averageOrderValue);
-    const clv = parseFloat(values.customerLifetimeValue);
+  const API_URL = import.meta.env.VITE_ROI_API_URL;
 
-    if (spend && rate && aov) {
-      const monthlyRevenue = spend * rate * aov;
-      const monthlyProfit = monthlyRevenue - spend;
-      const roi = (monthlyProfit / spend) * 100;
-      
-      setResults({
-        monthlyRevenue: monthlyRevenue.toFixed(0),
-        monthlyProfit: monthlyProfit.toFixed(0),
-        roi: roi.toFixed(1),
-        yearlyProfit: (monthlyProfit * 12).toFixed(0)
+  const onSubmit = async (values: ROIFormData) => {
+    setLoading(true);
+    setApiError(null);
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
       });
+      if (!response.ok) throw new Error('Failed to calculate ROI');
+      const result = await response.json();
+      setResults(result);
+    } catch (err) {
+      setApiError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-    >
-      <Card className="neumorphism hover-lift p-8">
-        <CardHeader>
-          <CardTitle className="font-clash text-2xl gradient-text">Calculate Your Marketing ROI</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div>
-            <Label className="font-inter font-medium">Monthly Marketing Spend ($)</Label>
-            <Input
-              value={values.monthlySpend}
-              onChange={(e) => setValues({...values, monthlySpend: e.target.value})}
-              placeholder="5000"
-              className="neumorphism-inset mt-2"
-            />
-          </div>
-          
-          <div>
-            <Label className="font-inter font-medium">Conversion Rate (%)</Label>
-            <Input
-              value={values.conversionRate}
-              onChange={(e) => setValues({...values, conversionRate: e.target.value})}
-              placeholder="2.5"
-              className="neumorphism-inset mt-2"
-            />
-          </div>
-          
-          <div>
-            <Label className="font-inter font-medium">Average Order Value ($)</Label>
-            <Input
-              value={values.averageOrderValue}
-              onChange={(e) => setValues({...values, averageOrderValue: e.target.value})}
-              placeholder="150"
-              className="neumorphism-inset mt-2"
-            />
-          </div>
-
-          <Button 
-            onClick={calculateROI}
-            className="w-full neumorphism hover-glow py-3 font-inter font-semibold"
-            style={{ background: 'var(--gradient-orange)' }}
-          >
-            <Zap className="w-4 h-4 mr-2" />
-            Calculate ROI
-          </Button>
-        </CardContent>
-      </Card>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+        >
+        <Card className="neumorphism hover-lift p-8">
+          <CardHeader>
+            <CardTitle className="font-clash text-2xl gradient-text">Calculate Your Marketing ROI</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <Label className="font-inter font-medium">Monthly Marketing Spend ($)</Label>
+              <Input {...register('monthlySpend')} placeholder="5000" className="neumorphism-inset mt-2" />
+              {errors.monthlySpend && <p className="text-destructive text-sm mt-1">{errors.monthlySpend.message}</p>}
+            </div>
+            <div>
+              <Label className="font-inter font-medium">Conversion Rate (%)</Label>
+              <Input {...register('conversionRate')} placeholder="2.5" className="neumorphism-inset mt-2" />
+              {errors.conversionRate && <p className="text-destructive text-sm mt-1">{errors.conversionRate.message}</p>}
+            </div>
+            <div>
+              <Label className="font-inter font-medium">Average Order Value ($)</Label>
+              <Input {...register('averageOrderValue')} placeholder="150" className="neumorphism-inset mt-2" />
+              {errors.averageOrderValue && <p className="text-destructive text-sm mt-1">{errors.averageOrderValue.message}</p>}
+            </div>
+            <Button type="submit" disabled={loading} className="w-full neumorphism hover-glow py-3 font-inter font-semibold" style={{ background: 'var(--gradient-orange)' }}>
+              {loading ? 'Calculating...' : 'Calculate ROI'}
+            </Button>
+            {apiError && <p className="text-destructive text-sm mt-2">{apiError}</p>}
+          </CardContent>
+        </Card>
 
       <Card className="neumorphism p-8">
         <CardHeader>
@@ -212,6 +219,7 @@ function ROICalculator() {
         </CardContent>
       </Card>
     </motion.div>
+    </form>
   );
 }
 

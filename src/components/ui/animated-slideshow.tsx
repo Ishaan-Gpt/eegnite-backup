@@ -128,6 +128,7 @@ export const AnimatedSlideshow: React.FC<AnimatedSlideshowProps> = ({
                     src={items[currentIndex].image}
                     alt={items[currentIndex].name}
                     className="w-full h-full object-cover rounded-full border-4 border-primary/20"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/20 to-transparent" />
                 </div>
@@ -162,7 +163,7 @@ export const AnimatedSlideshow: React.FC<AnimatedSlideshowProps> = ({
             onClick={goToPrevious}
             className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-background/80 hover:bg-background/90 backdrop-blur-sm"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-6 h-6" aria-label="Previous slide" />
           </Button>
           
           <Button
@@ -171,7 +172,7 @@ export const AnimatedSlideshow: React.FC<AnimatedSlideshowProps> = ({
             onClick={goToNext}
             className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-background/80 hover:bg-background/90 backdrop-blur-sm"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-6 h-6" aria-label="Next slide" />
           </Button>
         </>
       )}
