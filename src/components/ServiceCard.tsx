@@ -28,38 +28,41 @@ export function ServiceCard({ service, index }: ServiceCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       viewport={{ once: true }}
-      whileHover={{ y: -8 }}
+      whileHover={{ y: -14, scale: 1.035 }}
       className="group h-full"
     >
-      <Card className="h-full bg-card/50 backdrop-blur-sm border-border hover:border-primary/20 transition-all duration-300 overflow-hidden">
-        <CardContent className="p-6 lg:p-8 h-full flex flex-col">
+      <Card
+        className="h-full card-glass neumorphism bg-white/80 border border-orange-200/40 shadow-[0_8px_32px_0_rgba(255,88,0,0.13),0_2px_8px_0_rgba(255,88,0,0.10)] transition-all duration-300 overflow-hidden hover:shadow-orange-glow hover:scale-[1.04] hover:border-primary/40 hover:shadow-2xl hover:brightness-105 focus-within:ring-2 focus-within:ring-primary/40 !rounded-2xl"
+      >
+        <CardContent className="p-7 lg:p-10 h-full flex flex-col">
           {/* Icon */}
-          <div className="mb-6">
-            <div className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-              <Icon className="w-6 h-6 text-primary" aria-label={service.title + ' icon'} />
+          <div className="mb-6 flex justify-center">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-orange-100 border border-primary/20 flex items-center justify-center shadow-[0_2px_16px_0_rgba(255,88,0,0.13)] group-hover:shadow-orange-glow group-hover:scale-110 transition-all duration-300 relative">
+              <span className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent blur-lg opacity-60 group-hover:opacity-80 transition-all duration-300 pointer-events-none" />
+              <Icon className="w-7 h-7 text-primary drop-shadow-[0_2px_8px_rgba(255,88,0,0.15)]" aria-label={service.title + ' icon'} />
             </div>
           </div>
 
           {/* Category Badge */}
-          <div className="mb-4">
-            <span className={`inline-block px-3 py-1 rounded-full text-xs font-satoshi font-medium ${
-              service.category === 'growth' 
-                ? 'bg-primary/10 text-primary border border-primary/20'
+          <div className="mb-4 text-center">
+            <span className={`inline-block px-3 py-1 rounded-full text-xs font-satoshi font-medium shadow-sm border backdrop-blur-sm bg-white/60 ${
+              service.category === 'growth'
+                ? 'text-primary border-primary/30'
                 : service.category === 'technical'
-                ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-                : 'bg-purple-500/10 text-purple-400 border border-purple-500/20'
+                ? 'text-blue-400 border-blue-400/30'
+                : 'text-purple-400 border-purple-400/30'
             }`}>
               {service.category.charAt(0).toUpperCase() + service.category.slice(1)}
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="text-xl lg:text-2xl font-clash font-semibold text-foreground mb-4 group-hover:text-primary transition-colors">
+          <h3 className="text-xl lg:text-2xl font-clash font-semibold text-foreground mb-4 group-hover:text-primary transition-colors text-center">
             {service.title}
           </h3>
 
           {/* Description */}
-          <p className="text-muted-foreground font-satoshi leading-relaxed mb-6 flex-grow">
+          <p className="text-muted-foreground font-satoshi leading-relaxed mb-6 flex-grow text-center">
             {service.description}
           </p>
 
@@ -81,13 +84,12 @@ export function ServiceCard({ service, index }: ServiceCardProps) {
           </div>
 
           {/* CTA */}
-          <Button 
+          <Button
             asChild
-            variant="ghost" 
-            className="group/btn self-start p-0 h-auto text-primary hover:text-primary hover:bg-transparent"
+            className="bg-gradient-orange text-primary-foreground font-satoshi font-semibold px-6 py-3 rounded-xl shadow hover:shadow-orange-glow hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:ring-offset-2"
           >
             <Link to="/services">
-              <span className="font-satoshi font-medium">Learn More</span>
+              <span>Learn More</span>
               <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
             </Link>
           </Button>

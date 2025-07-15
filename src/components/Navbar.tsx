@@ -45,6 +45,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
+            <img src="/favicon.ico" alt="Logo" className="w-8 h-8 lg:w-10 lg:h-10 rounded" />
             <motion.div
               className="text-2xl lg:text-3xl font-clash font-bold"
               whileHover={{ scale: 1.05 }}

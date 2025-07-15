@@ -204,3 +204,34 @@
     animation: float-gentle 6s ease-in-out infinite;
   }
 }
+
+/* Modern, sharp, and tactile site-wide enhancements with EEGNITE orange and no rounded corners */
+body {
+  background: linear-gradient(135deg, #fffaf3 0%, #ffe5c2 100%);
+}
+
+.card-glass {
+  @apply bg-white/70 backdrop-blur-md border border-white/30 shadow-[0_4px_24px_0_rgba(255,88,0,0.10),0_1.5px_4px_0_rgba(255,88,0,0.08)] neumorphism !rounded-none;
+}
+
+.btn-premium {
+  @apply bg-gradient-to-r from-[#ff5800] via-[#ff7d33] to-[#ff9a4d] text-white shadow-[0_2px_8px_0_rgba(255,88,0,0.10)] hover:shadow-xl neumorphism !rounded-none border border-[#ff7d33] transition-all duration-200;
+}
+
+.input-lux {
+  @apply border-[#ff7d33] focus:border-[#ff5800] shadow focus:shadow-lg transition neumorphism-inset !rounded-none;
+}
+
+.divider-gradient {
+  @apply h-1 w-full bg-gradient-to-r from-transparent via-[#ff7d33] to-transparent my-8 !rounded-none;
+}
+
+/* Neumorphism utility */
+.neumorphism {
+  box-shadow: 0 4px 24px 0 rgba(255,88,0,0.10), 0 1.5px 4px 0 rgba(255,88,0,0.08), 0 1.5px 4px 0 #fff inset;
+}
+.neumorphism-inset {
+  box-shadow: 0 2px 8px 0 rgba(255,88,0,0.08) inset, 0 1.5px 4px 0 #fff inset;
+}
+
+/* Note: Do not apply these classes to landing, Services, Testimonials, or Team sections. */

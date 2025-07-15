@@ -11,6 +11,8 @@ import { FeaturesShowcase } from "@/components/FeaturesShowcase";
 import { Zap, Target, Users, TrendingUp } from 'lucide-react';
 import { TeamSection } from "@/components/TeamSection";
 import { Helmet } from "react-helmet-async";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
+import { ContactForm } from '@/components/ContactForm';
 
 const processSteps = [
   {
@@ -52,58 +54,9 @@ const Index = () => {
       <div className="min-h-screen">
         {/* Enhanced Hero Section */}
         <EnhancedHero />
-        
-        {/* Core Services Section */}
-        <section className="py-24 bg-background">
-          <div className="canvas-wide">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
-                Core Growth Services That <span className="text-primary">Drive Results</span>
-              </h2>
-              <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
-                Foundational marketing services designed to establish your market presence and generate consistent leads.
-              </p>
-            </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.slice(0, 3).map((service, index) => (
-                <ServiceCard key={service.id} service={service} index={index} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Advanced Growth Solutions Section */}
-        <section className="py-24 bg-gradient-subtle">
-          <div className="canvas-wide">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
-                Advanced Growth <span className="text-primary">Solutions</span>
-              </h2>
-              <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
-                Enterprise-level strategies for businesses ready to scale aggressively and dominate their market.
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.slice(3).map((service, index) => (
-                <ServiceCard key={service.id} service={service} index={index + 3} />
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Services Grid Section */}
+        <ServicesGrid />
 
         {/* Process Section */}
         <section className="py-16 lg:py-24 bg-gradient-subtle">
@@ -155,26 +108,30 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Enhanced Services Grid */}
-        <ServicesGrid />
+        {/* Features Showcase */}
+        <FeaturesShowcase />
 
-        {/* Interactive Tools */}
-            <InteractiveTools />
-            
-            {/* Team Section */}
-            <TeamSection />
+        {/* Team Section */}
+        <TeamSection />
 
         {/* Company Timeline */}
         <EegniteTimeline />
 
-        {/* Features Showcase */}
-        <FeaturesShowcase />
+        {/* Interactive Tools */}
+        <InteractiveTools />
 
         {/* Testimonials */}
         <Testimonials />
 
+        {/* Contact Form (unified with Contact page) */}
+        <ContactForm />
+
         {/* CTA Section */}
         <CTASection />
+
+        {/* Newsletter Subscription (unified with Resources page) */}
+        {/* Import and use the same newsletter subscription form/logic as Resources page here */}
+        {/* <NewsletterForm /> or inline newsletter code from Resources page */}
       </div>
     </>
   );

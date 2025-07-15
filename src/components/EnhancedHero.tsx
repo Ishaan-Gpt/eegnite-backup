@@ -4,7 +4,7 @@ import { Mockup } from "@/components/ui/mockup";
 import { Glow } from "@/components/ui/glow";
 import { Floating3D } from "@/components/ui/floating-3d";
 import { ArrowRight, Play, Star, Users, TrendingUp, Award } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import heroMockup from "@/assets/hero-bg.jpg";
 
@@ -13,6 +13,24 @@ const testimonials = [
   { name: "Michael Rodriguez", company: "StartupXYZ", text: "Revenue increased by 340% in 6 months", rating: 5 },
   { name: "Emily Johnson", company: "ScaleUp Inc", text: "Best marketing investment we've ever made", rating: 5 }
 ]
+
+// TypeScript: declare the custom element for JSX
+// @ts-ignore
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & { url: string };
+    }
+  }
+}
+
+// TypeScript: declare UnicornStudio on window
+// @ts-ignore
+declare global {
+  interface Window {
+    UnicornStudio?: any;
+  }
+}
 
 export function EnhancedHero() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -25,6 +43,25 @@ export function EnhancedHero() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
   const scale = useTransform(scrollYProgress, [0, 0.3], [1, 0.95])
+
+  useEffect(() => {
+    // Dynamically add the Spline viewer script if not already present
+    if (!document.querySelector('script[src="https://unpkg.com/@splinetool/viewer@1.10.30/build/spline-viewer.js"]')) {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = 'https://unpkg.com/@splinetool/viewer@1.10.30/build/spline-viewer.js';
+      document.head.appendChild(script);
+    }
+    // Remove Beam background and script
+    const beamDiv = document.querySelector('[data-us-project="6osq2Wmaq9mq6HAxJH0K"]');
+    if (beamDiv && beamDiv.parentElement) {
+      beamDiv.parentElement.removeChild(beamDiv);
+    }
+    const beamScript = document.querySelector('script[src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.28/dist/unicornStudio.umd.js"]');
+    if (beamScript && beamScript.parentElement) {
+      beamScript.parentElement.removeChild(beamScript);
+    }
+  }, []);
 
   return (
     <motion.section
@@ -233,68 +270,17 @@ export function EnhancedHero() {
             </div>
           </motion.div>
 
-          {/* Right Mockup */}
+          {/* Right Spline 3D Robot */}
           <motion.div
-            className="relative"
+            className="relative flex items-center justify-center w-full h-full min-h-[400px] bg-transparent"
             initial={{ opacity: 0, x: 50, rotateY: 15 }}
             animate={{ opacity: 1, x: 0, rotateY: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
           >
-            <Glow intensity="xl" color="primary">
-              <motion.div
-                whileHover={{ 
-                  scale: 1.02, 
-                  rotateY: -5,
-                  rotateX: 5 
-                }}
-                transition={{ type: "spring", stiffness: 200 }}
-                className="perspective-1000"
-              >
-                <Mockup variant="browser" className="w-full max-w-2xl mx-auto">
-                  <motion.img
-                    src={heroMockup}
-                    alt="EEGNITE Platform Dashboard"
-                    className="w-full h-auto rounded-lg"
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 1, duration: 0.8 }}
-                    loading="lazy"
-                  />
-                </Mockup>
-              </motion.div>
-            </Glow>
-
-            {/* Floating Elements */}
-            <motion.div
-              className="absolute -top-4 -right-4 p-3 bg-green-500 text-white rounded-full shadow-lg"
-              animate={{ 
-                y: [0, -10, 0],
-                rotate: [0, 5, 0] 
-              }}
-              transition={{ 
-                duration: 3,
-                repeat: Infinity,
-                repeatType: "reverse" 
-              }}
-            >
-              <TrendingUp className="w-6 h-6" />
-            </motion.div>
-
-            <motion.div
-              className="absolute -bottom-8 -left-8 p-4 bg-blue-500 text-white rounded-full shadow-lg"
-              animate={{ 
-                y: [0, 10, 0],
-                rotate: [0, -5, 0] 
-              }}
-              transition={{ 
-                duration: 4,
-                repeat: Infinity,
-                repeatType: "reverse",
-                delay: 1
-              }}
-            >
-              <Users className="w-6 h-6" />
-            </motion.div>
+            <spline-viewer 
+              url="https://prod.spline.design/xGsyl3mCiHSMITlf/scene.splinecode"
+              style={{ width: '100%', height: '60vw', minHeight: 400, maxHeight: 700, maxWidth: '100%', background: 'transparent', border: 'none', boxShadow: 'none' }}
+            />
           </motion.div>
         </div>
       </div>

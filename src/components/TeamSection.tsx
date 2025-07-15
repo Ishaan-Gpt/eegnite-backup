@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { AnimatedSlideshow } from '@/components/ui/animated-slideshow';
 import { Linkedin, Twitter, Mail } from 'lucide-react';
+import { companyStats } from '@/data/companyStats';
 
 const teamMembers = [
   {
@@ -101,18 +102,12 @@ export function TeamSection() {
           viewport={{ once: true }}
           className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8"
         >
-          <div className="text-center">
-            <div className="text-4xl font-clash font-bold text-primary mb-2">50+</div>
-            <p className="text-muted-foreground font-satoshi">Years Combined Experience</p>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-clash font-bold text-primary mb-2">200+</div>
-            <p className="text-muted-foreground font-satoshi">Successful Campaigns</p>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-clash font-bold text-primary mb-2">$100M+</div>
-            <p className="text-muted-foreground font-satoshi">Revenue Generated</p>
-          </div>
+          {companyStats.map((stat) => (
+            <div className="text-center" key={stat.label}>
+              <div className="text-4xl font-clash font-bold text-primary mb-2">{stat.value}</div>
+              <p className="text-muted-foreground font-satoshi">{stat.label}</p>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>

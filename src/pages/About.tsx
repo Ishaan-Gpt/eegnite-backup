@@ -3,6 +3,10 @@ import { Award, Users, Target, Zap, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
+import { companyStats } from '@/data/companyStats';
+import { EegniteTimeline } from '@/components/EegniteTimeline';
+import { TeamSection } from '@/components/TeamSection';
+import Testimonials from '@/components/ui/testimonials-columns-1';
 
 const founderStory = {
   name: "Alex Chen",
@@ -10,34 +14,6 @@ const founderStory = {
   image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=600&fit=crop&crop=face",
   story: "After scaling 3 startups from zero to 8-figures, I discovered the exact growth framework that separates industry leaders from everyone else. EEGNITE was born from one mission: democratize enterprise-level growth strategies for ambitious businesses."
 };
-
-const teamMembers = [
-  {
-    name: "Sarah Rodriguez",
-    role: "Head of Strategy",
-    image: "https://images.unsplash.com/photo-1494790108755-2616b612e2bb?w=300&h=400&fit=crop&crop=face",
-    expertise: "Performance Marketing & Analytics"
-  },
-  {
-    name: "Marcus Thompson", 
-    role: "Creative Director",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=400&fit=crop&crop=face",
-    expertise: "Brand Development & Content"
-  },
-  {
-    name: "Jennifer Kim",
-    role: "Client Success Director", 
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=400&fit=crop&crop=face",
-    expertise: "Account Management & Growth"
-  }
-];
-
-const achievements = [
-  { metric: "$50M+", label: "Revenue Generated" },
-  { metric: "200+", label: "Successful Projects" },
-  { metric: "98%", label: "Client Retention Rate" },
-  { metric: "3.2x", label: "Average ROI Increase" }
-];
 
 const certifications = [
   "Google Ads Premier Partner",
@@ -150,9 +126,9 @@ const About = () => {
             </motion.div>
             
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-              {achievements.map((achievement, index) => (
+              {companyStats.map((stat, index) => (
                 <motion.div
-                  key={achievement.label}
+                  key={stat.label}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -160,10 +136,10 @@ const About = () => {
                   className="text-center"
                 >
                   <div className="text-4xl lg:text-5xl font-clash font-bold text-primary mb-2">
-                    {achievement.metric}
+                    {stat.value}
                   </div>
                   <div className="text-muted-foreground font-satoshi">
-                    {achievement.label}
+                    {stat.label}
                   </div>
                 </motion.div>
               ))}
@@ -171,56 +147,8 @@ const About = () => {
           </div>
         </section>
 
-        {/* Team */}
-        <section className="py-16 lg:py-24 bg-background">
-          <div className="container mx-auto px-4 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl lg:text-5xl font-clash font-bold text-foreground mb-6">
-                Meet the <span className="text-primary">Dream Team</span>
-              </h2>
-              <p className="text-lg text-muted-foreground font-satoshi max-w-3xl mx-auto">
-                A carefully curated team of growth specialists, each with deep expertise in their domain.
-              </p>
-            </motion.div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {teamMembers.map((member, index) => (
-                <motion.div
-                  key={member.name}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="text-center group"
-                >
-                  <div className="relative mb-6">
-                    <img 
-                      src={member.image} 
-                      alt={member.name}
-                      className="w-full h-80 object-cover rounded-2xl shadow-elegant group-hover:shadow-orange transition-shadow duration-300"
-                      loading="lazy"
-                    />
-                  </div>
-                  <h3 className="text-xl font-clash font-semibold text-foreground mb-2">
-                    {member.name}
-                  </h3>
-                  <p className="text-primary font-satoshi font-medium mb-2">
-                    {member.role}
-                  </p>
-                  <p className="text-muted-foreground font-satoshi">
-                    {member.expertise}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Team Section (shared with landing page) */}
+        <TeamSection />
 
         {/* Certifications */}
         <section className="py-16 bg-gradient-subtle">
@@ -256,6 +184,16 @@ const About = () => {
             </div>
           </div>
         </section>
+
+        {/* Company Timeline Section (duplicated from landing page) */}
+        <EegniteTimeline />
+
+        {/* Testimonials Section (shared with landing page) */}
+        <Testimonials />
+
+        {/* Newsletter Subscription (unified with Resources page) */}
+        {/* Import and use the same newsletter subscription form/logic as Resources page here */}
+        {/* <NewsletterForm /> or inline newsletter code from Resources page */}
       </div>
     </>
   );
